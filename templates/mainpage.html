@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sodifórum kommentkereső</title>
+    <style>
+        .bal {
+            width: 50px;
+        }
+        .quote{
+            margin: 3px;
+            border: 1px solid black;
+            background-color: rgb(201, 201, 201);
+        }
+        .author {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Keress a leszedett kommentek közül!</h1>
+    <form action="/" method="POST">
+        <fieldset>
+        <legend>Keresés</legend>
+        
+        <table>
+            <tr>
+                <td>Kommentelő neve: </td>
+                <td><input type="text" name="name" value='{{datas["name"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Komment ID:</td>
+                <td><input type="number" name="id" value='{{datas["id"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Mely oldalon:</td>
+                <td><input type="number" name="page" value='{{datas["page"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Regisztrált-e:</td>
+                <td><input type="number" name="verified" min="0" max="1" value='{{datas["verified"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Komment:</td>
+                <td><input type="text" name="comment" value='{{datas["comment"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Ennél több pontja legyen:</td>
+                <td><input type="number" name="points" value='{{datas["points"]}}'><br></td>
+            </tr>
+            <tr>
+                <td>Dátum</td>
+                <td><input type="date" name="date1" value='{{datas["date1"]}}'> tól<br>
+                    <input type="date" name="date2" value='{{datas["date2"]}}'> ig<br></td>
+            </tr>
+        </table>
+        </fieldset>
+        <button>Keresés</button>
+    </form>
+    
+    <hr>
+    <div style="width: 100%;">
+    {% if rows %}
+    Találatok száma: {{found}}
+    {% for row in rows %}
+        <table border="1" style="box-sizing:border-box; width:99%; margin:10px">
+            <tr>
+                <td class="bal">Page: {{row[1]}}</td>
+                <td>ID: <a target="_blank" href="https://forum.sodika.org/?pageNo={{row[1]}}&highlight={{row[0]}}#comment-{{row[0]}}">{{row[0]}}</a></td>
+                <td>Név: {{row[2]}}</td>
+                <td>Reg: {{row[3]}}</td>
+                <td>Pontok: {{row[5]}}</td>
+            </tr>
+            
+            <tr><td class="bal">Komment</td><td colspan="4">{{row[4]|safe}}</td></tr>
+            <tr><td colspan="5" > Dátum: {{row[6]}}</td></tr>
+        </table>
+    {% endfor %}
+    {% endif %}
+    </div>
+</body>
+</html>
